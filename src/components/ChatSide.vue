@@ -1,5 +1,10 @@
 <template>
     <div id="chat-side">
+        <div class="header">
+           <div class="header-bar">
+                
+           </div>
+        </div>
         ChatSide
     </div>
 </template>
@@ -10,12 +15,12 @@ export default{
 }
 </script>
 
-<style>
+<style scoped>
 #chat-side{
     flex: 1;
     height: 100%;
-    background-color: var(--success);
 }
+
 
 @media (max-width: 900px) {
     #chat-side{

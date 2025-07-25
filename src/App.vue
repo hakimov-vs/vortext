@@ -27,4 +27,13 @@ export default {
   overflow: auto;
   position: relative;
 }
+
+.header{
+  height: 60px;
+  padding: 6px 15px;
+}
+.header-bar{
+    height: 100%;
+    display: flex;
+}
 </style>
