@@ -20,20 +20,21 @@ export default {
 </script>
 
 <style>
+
 #screen {
   width: 100%;
-  height: 100vh;
+  height: 100dvh;
   display: flex;
   overflow: auto;
-  position: relative;
 }
 
 .header{
-  height: 60px;
-  padding: 6px 15px;
+    border-bottom: 1px solid #cccccc;
 }
+
 .header-bar{
-    height: 100%;
+    height: 60px;
+    padding: 6px 15px;
     display: flex;
 }
 </style>
