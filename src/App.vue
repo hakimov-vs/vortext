@@ -29,12 +29,12 @@ export default {
 }
 
 .header{
-    border-bottom: 1px solid #cccccc;
+  border-bottom: 1px solid #cccccc;
 }
 
 .header-bar{
-    height: 60px;
-    padding: 6px 15px;
-    display: flex;
+  height: 60px;
+  padding: 6px 15px;
+  display: flex;
 }
 </style>

@@ -2,25 +2,65 @@
     <div id="chat-side">
         <div class="header">
            <div class="header-bar">
-                items
+                <div class="chat-thumbnails">
+                    <div class="chat-profile">
+                        <div class="chat-profile-image">
+                            <img src="/images/img2.jpg" alt="User profile">
+                        </div>
+                        <div class="chat-profile-name-status">
+                            <p class="chat-profile-name"><b>Djon</b></p>
+                            <p class="chat-profile-status">Last seen recently</p>
+                        </div>
+                    </div>
+                    <div class="chat-functions"> 
+                        <div class="function-list">
+                            <span>
+                                <svg viewBox="0 0 16 16"><path fill="currentColor" d="M7 4c0-.139 0-.209.008-.267a.85.85 0 0 1 .724-.724c.059-.008.128-.008.267-.008s.21 0 .267.008a.85.85 0 0 1 .724.724c.008.058.008.128.008.267s0 .209-.008.267a.85.85 0 0 1-.724.724c-.058.008-.128.008-.267.008s-.209 0-.267-.008a.85.85 0 0 1-.724-.724C7 4.209 7 4.139 7 4m0 4c0-.139 0-.209.008-.267a.85.85 0 0 1 .724-.724c.059-.008.128-.008.267-.008s.21 0 .267.008a.85.85 0 0 1 .724.724c.008.058.008.128.008.267s0 .209-.008.267a.85.85 0 0 1-.724.724c-.058.008-.128.008-.267.008s-.209 0-.267-.008a.85.85 0 0 1-.724-.724C7 8.209 7 8.139 7 8m0 4c0-.139 0-.209.008-.267a.85.85 0 0 1 .724-.724c.059-.008.128-.008.267-.008s.21 0 .267.008a.85.85 0 0 1 .724.724c.008.058.008.128.008.267s0 .209-.008.268a.85.85 0 0 1-.724.724C8.208 13 8.138 13 8 13s-.209 0-.267-.008a.85.85 0 0 1-.724-.724C7 12.21 7 12.14 7 12"/></svg>
+                            </span>
+                        </div>
+                        <!-- <div class="function-list">
+                            <span>
+                                <svg viewBox="0 0 16 16"><path fill="currentColor" d="M7 4c0-.139 0-.209.008-.267a.85.85 0 0 1 .724-.724c.059-.008.128-.008.267-.008s.21 0 .267.008a.85.85 0 0 1 .724.724c.008.058.008.128.008.267s0 .209-.008.267a.85.85 0 0 1-.724.724c-.058.008-.128.008-.267.008s-.209 0-.267-.008a.85.85 0 0 1-.724-.724C7 4.209 7 4.139 7 4m0 4c0-.139 0-.209.008-.267a.85.85 0 0 1 .724-.724c.059-.008.128-.008.267-.008s.21 0 .267.008a.85.85 0 0 1 .724.724c.008.058.008.128.008.267s0 .209-.008.267a.85.85 0 0 1-.724.724c-.058.008-.128.008-.267.008s-.209 0-.267-.008a.85.85 0 0 1-.724-.724C7 8.209 7 8.139 7 8m0 4c0-.139 0-.209.008-.267a.85.85 0 0 1 .724-.724c.059-.008.128-.008.267-.008s.21 0 .267.008a.85.85 0 0 1 .724.724c.008.058.008.128.008.267s0 .209-.008.268a.85.85 0 0 1-.724.724C8.208 13 8.138 13 8 13s-.209 0-.267-.008a.85.85 0 0 1-.724-.724C7 12.21 7 12.14 7 12"/></svg>
+                            </span>
+                        </div>
+                        <div class="function-list">
+                            <span>
+                                <svg viewBox="0 0 16 16"><path fill="currentColor" d="M7 4c0-.139 0-.209.008-.267a.85.85 0 0 1 .724-.724c.059-.008.128-.008.267-.008s.21 0 .267.008a.85.85 0 0 1 .724.724c.008.058.008.128.008.267s0 .209-.008.267a.85.85 0 0 1-.724.724c-.058.008-.128.008-.267.008s-.209 0-.267-.008a.85.85 0 0 1-.724-.724C7 4.209 7 4.139 7 4m0 4c0-.139 0-.209.008-.267a.85.85 0 0 1 .724-.724c.059-.008.128-.008.267-.008s.21 0 .267.008a.85.85 0 0 1 .724.724c.008.058.008.128.008.267s0 .209-.008.267a.85.85 0 0 1-.724.724c-.058.008-.128.008-.267.008s-.209 0-.267-.008a.85.85 0 0 1-.724-.724C7 8.209 7 8.139 7 8m0 4c0-.139 0-.209.008-.267a.85.85 0 0 1 .724-.724c.059-.008.128-.008.267-.008s.21 0 .267.008a.85.85 0 0 1 .724.724c.008.058.008.128.008.267s0 .209-.008.268a.85.85 0 0 1-.724.724C8.208 13 8.138 13 8 13s-.209 0-.267-.008a.85.85 0 0 1-.724-.724C7 12.21 7 12.14 7 12"/></svg>
+                            </span>
+                        </div> -->
+                    </div>
+                </div>
            </div>
         </div>
         <div class="message-section">
-            <div class="message-block scrollbar-y-style">
-               
+            <div class="message-block scrollbar-y-style" style="display: flex; align-items: center; flex-direction: column;">
+               <div style="font-size: 18px; margin-bottom: 15px; padding: 10px; border-radius: 10px; background-color: var(--success);
+               color: #fff; width: 90%;" v-for="i in [1,2,3,4,5,6,7,8,9,10,11,12]" :key="i">
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolore sint delectus, dignissimos cumque inventore, recusandae tempora rem, id tenetur praesentium assumenda? Maiores eius voluptas quia, dolorum excepturi modi veniam reiciendis.
+                    </p>
+               </div>
             </div>
-            <div class="input-message">
+            <div class="input-section">
                 <div class="input-items">
-                    <div class="input-emoji">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-smile-icon lucide-smile"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" x2="9.01" y1="9" y2="9"/><line x1="15" x2="15.01" y1="9" y2="9"/></svg>
-                    </div>
                     <div class="input-input">
-                        <svg  width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-paperclip-icon lucide-paperclip"><path d="m16 6-8.414 8.586a2 2 0 0 0 2.829 2.829l8.414-8.586a4 4 0 1 0-5.657-5.657l-8.379 8.551a6 6 0 1 0 8.485 8.485l8.379-8.551"/></svg>
-                        <input type="text">
+                        <span class="input-icon icon-smile">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-smile-icon lucide-smile"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" x2="9.01" y1="9" y2="9"/><line x1="15" x2="15.01" y1="9" y2="9"/></svg>
+                        </span>
+                        <div class="input-message">
+                            <input type="text" placeholder="Message">
+                        </div>
+                        <span class="input-icon icon-paperclip"> 
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-paperclip-icon lucide-paperclip"><path d="m16 6-8.414 8.586a2 2 0 0 0 2.829 2.829l8.414-8.586a4 4 0 1 0-5.657-5.657l-8.379 8.551a6 6 0 1 0 8.485 8.485l8.379-8.551"/></svg>
+                        </span>
                     </div>
                     <div class="input-right">
-                        <svg  width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-send-horizontal-icon lucide-send-horizontal"><path d="M3.714 3.048a.498.498 0 0 0-.683.627l2.843 7.627a2 2 0 0 1 0 1.396l-2.842 7.627a.498.498 0 0 0 .682.627l18-8.5a.5.5 0 0 0 0-.904z"/><path d="M6 12h16"/></svg>
-                        <svg  width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-mic-icon lucide-mic"><path d="M12 19v3"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><rect x="9" y="2" width="6" height="13" rx="3"/></svg>
+                        <!-- <span class="input-icon" style="padding: 1px 0px 0px 3px;">
+                           <svg viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M2.345 2.245a1 1 0 0 1 1.102-.14l18 9a1 1 0 0 1 0 1.79l-18 9a1 1 0 0 1-1.396-1.211L4.613 13H10a1 1 0 1 0 0-2H4.613L2.05 3.316a1 1 0 0 1 .294-1.071z" clip-rule="evenodd"/></svg>
+                        </span> -->
+                        <span class="input-icon icon-mic">
+                            <svg viewBox="0 0 20 20"><path fill="currentColor" d="M9 18v-1.06A8 8 0 0 1 2 9h2a6 6 0 1 0 12 0h2a8 8 0 0 1-7 7.94V18h3v2H6v-2h3zM6 4a4 4 0 1 1 8 0v5a4 4 0 1 1-8 0V4z"/></svg>
+                        </span>
                     </div>
                 </div>
             </div>
@@ -40,6 +80,68 @@ export default{
     height: 100%;
     display: flex;
     flex-direction: column;
+}
+
+.chat-thumbnails{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.chat-profile, .chat-functions{
+    width: auto;
+    display: flex;
+}
+
+.chat-profile-image{
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    overflow: hidden;
+    cursor: pointer;
+}
+.chat-profile-image img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.chat-profile-name-status{
+    width: auto;
+    flex-direction: column;
+    padding-left: 10px;
+    align-content: center;
+    cursor: pointer;
+}
+
+.chat-profile-name{
+    font-size: 18px;
+}
+
+.chat-profile-status{
+    font-size: 14px;
+    color: #7d8286;
+}
+
+.function-list{
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 10px;
+    border-radius: 50%;
+    cursor: pointer;
+    padding-top: 3px;
+    transition:all 0.2s ease;
+}
+
+.function-list:hover{
+    background-color: #eceef1;
+}
+
+.function-list span svg{
+    width: 30px;
 }
 
 .message-section{
@@ -62,7 +164,7 @@ export default{
     overflow-x: hidden;
 }
 
-.input-message{
+.input-section{
     height: 70px;
     display: flex;
     justify-content: center;
@@ -70,14 +172,112 @@ export default{
 
 .input-items{
     width: 90%;
-    background-color: green;
+    height: 100%;
     display: flex;
+    align-items: center;
+    padding: 5px 0px 12px 0px;
+}
+
+.input-input{
+    flex: 1 0 0;
+    display: flex;
+    background-color: #fff;
+    position: relative;
+    margin-right: 10px;
+    height: 100%;
+    border-bottom-left-radius: 15px;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+
+.input-input::after{
+    content: "";
+    position: absolute;
+    bottom: 0px;
+    right: -15px;
+    width: 20px;
+    height: 20px;
+    background: linear-gradient(150deg, #fff 0%, #fff 50%, transparent 50%, transparent);
+    transform: rotate(-90deg);
+}
+
+.input-message{
+    flex: 1 0 0;
+}
+
+.input-message input{
+    width: calc(100% + 10px);
+    height: 100%;
+    border: none;
+    font-size: 18px;
+    margin-left: -5px;
+    cursor:text;
+}
+
+.input-icon {
+    width: 55px;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.icon-smile svg, .icon-paperclip svg{
+    width: 30px;
+    cursor: pointer;
+    padding: 3px;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+}
+
+.icon-smile svg:hover, .icon-paperclip svg:hover{
+    background-color:#eceef1;
+    color: var(--primary);
+}
+
+.input-right{
+    width: 53px;
+    height: 53px;
+    background-color: var(--primary);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+
+.input-right span svg{
+    color: #fff;
+    width: 25px;
+}
+
+.icon-mic svg{
+    max-width: 21px;
 }
 
 
 @media (max-width: 900px) {
     #chat-side{
-        display: none;
+        /* display: none; */
+        width: 100%;
     }
 }
+
+@media(max-width: 600px){
+    .input-items{
+        width: 95%;
+    }
+    .input-section{
+        height: 65px;
+    }
+    .input-icon{
+        width: 45px;
+    }
+    .input-right{
+        width: 48px;
+        height: 48px;
+    }
+}
+
 </style>
