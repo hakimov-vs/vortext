@@ -4,6 +4,13 @@
            <div class="header-bar">
                 <div class="chat-thumbnails">
                     <div class="chat-profile">
+                        <div class="back-to-home">
+                            <RippleEffect duration="0.4s">
+                                <span>
+                                    <svg  viewBox="0 0 1024 1024"><path fill="currentColor" d="M224 480h640a32 32 0 1 1 0 64H224a32 32 0 0 1 0-64z"/><path fill="currentColor" d="m237.248 512l265.408 265.344a32 32 0 0 1-45.312 45.312l-288-288a32 32 0 0 1 0-45.312l288-288a32 32 0 1 1 45.312 45.312L237.248 512z"/></svg>
+                                </span>
+                            </RippleEffect>
+                        </div>
                         <div class="chat-profile-image">
                             <img src="/images/img2.jpg" alt="User profile">
                         </div>
@@ -71,7 +78,6 @@
 </template>
 
 <script>
-import RippleEffect from './UI/RippleEffect.vue';
 
 export default{
     name:'ChatSide',
@@ -106,6 +112,31 @@ export default{
     width: auto;
     display: flex;
 }
+
+.back-to-home{
+    display: none !important;
+    width: 43px;
+    height: 43px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition:all 0.2s ease;
+    cursor: pointer;
+    overflow: hidden;
+    margin-right: 10px;
+}
+
+.back-to-home:hover{
+    background-color:  #eceef1;
+}
+
+.back-to-home span svg{
+    width: 25px;
+    height: 25px;
+    margin-top: 2px;
+}
+
 
 .chat-profile-image{
     width: 45px;
@@ -281,11 +312,15 @@ export default{
         /* display: none; */
         width: 100%;
     }
+
+    .back-to-home{
+        display:inline !important;
+    }
 }
 
 @media(max-width: 600px){
     .input-items{
-        width: 95%;
+        width: 97%;
     }
     .input-section{
         height: 65px;
@@ -308,6 +343,7 @@ export default{
         height: 17px;
         right: -12px;
     }
+    
 }
 
 </style>

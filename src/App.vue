@@ -37,4 +37,10 @@ export default {
   padding: 6px 15px;
   display: flex;
 }
+
+@media(max-width: 600px){
+  .header-bar{
+    padding: 6px;
+  }  
+}
 </style>
