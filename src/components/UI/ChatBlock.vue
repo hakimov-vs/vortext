@@ -1,63 +1,93 @@
 <template>
-  <div class="chats">
-    <div class="chat-profile">
-        <template v-if="hasImage">
-            <img :src="imgURL" alt="Profile picture" />
-        </template>
-        <template v-else>
-            <div  class="no-image" :style="{ backgroundColor: randomColor }">
-                <span>
-                    {{ firstLetter }}
-                </span>
+    <RippleEffect duration="0.6s">
+        <div class="chats" :class="{'selected-chat': isSelected }" @click="$emit('select')">
+            <div class="chat-profile">
+                <template v-if="hasImage">
+                    <img :src="imgURL" alt="Profile picture" />
+                </template>
+                <template v-else>
+                    <div  class="no-image" :style="{ backgroundColor: randomColor }">
+                        <span>
+                            {{ firstLetter }}
+                        </span>
+                    </div>
+                </template>
             </div>
-        </template>
-    </div>
-    <div class="chat-items">
-        <div class="chat-title-time">
-            <div class="chat-title">
-                <p>
-                    <b>
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi rem assumenda tempora distinctio dolores iure velit non hic nemo. Vel modi fuga veniam repudiandae animi dolores cumque sint illo accusantium!
-                    </b>
-                </p>
-            </div>
-            <div class="chat-time">
-                <span>2025/03/25</span>
+            <div class="chat-items">
+                <div class="chat-title-time">
+                    <div class="chat-title">
+                        <p>
+                            <b>
+                                {{ name }}
+                            </b>
+                        </p>
+                    </div>
+                    <div class="chat-time">
+                        <span>{{ date }}</span>
+                    </div>
+                </div>
+                <div class="chat-lmessage-badge">
+                    <div class="chat-lmessage">
+                        <p>
+                            {{ lmessage }}
+                        </p>
+                    </div>
+                    <div class="chat-badge" v-if="unread > 0">
+                        <BadgeUI :value="unread"/>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="chat-lmessage-badge">
-            <div class="chat-lmessage">
-                <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis ad fuga rerum quas, velit vel veritatis perspiciatis, voluptate sunt, quam enim illo nostrum sequi voluptas non quibusdam. Laborum, nemo repellendus? 
-                </p>
-            </div>
-            <div class="chat-badge">
-                <BadgeUI value="1"/>
-            </div>
-        </div>
-    </div>
-  </div>
+    </RippleEffect>
 </template>
 
 <script>
 export default{
     name:'ChatBlock',
+    data(){
+        return{
+            selected:false
+        }
+    },
     props:{
-        username: {
-            type: String,
-            required: true
+        isSelected:{
+            type: Boolean,
+            default: false
         },
         imgURL:{
             type: String,
             default: ""
+        },
+        name: {
+            type: String,
+            required: true
+        },
+        date: {
+            type: String,
+            required: true
+        },
+        lmessage:{
+            type: String,
+            required: true
+        },
+        unread:{
+            type: Number,
+            default: 0,
+            required: true
         }
+
+    },
+    methods:{
+        slecetthischat(value){
+            this.selected = value;
+        }   
     },
     computed:{
         hasImage() {
             return !!this.imgURL;
         },
         firstLetter() {
-            return this.username ? this.username.charAt(0).toUpperCase() : '?';
+            return this.name ? this.name.charAt(0).toUpperCase() : '?';
         },
          randomColor() {
             const colors = [
@@ -67,7 +97,7 @@ export default{
             ];
             const index = Math.floor(Math.random() * colors.length)
             return colors[index];
-        }
+        },
     }
 }
 </script>
@@ -76,12 +106,15 @@ export default{
 .chats {
   padding: 0 9px;
   height: 80px;
-  border-radius: 7px;
   width: 100%;
   transition: background-color 0.3s ease;
   display: flex;
   flex-direction: row;
   align-items: center;
+}
+
+.rippleeffect{
+  border-radius: 7px;
 }
 
 .chats:hover{
@@ -156,4 +189,20 @@ export default{
     color: white;
 }
 
+.selected-chat{
+    background-color: var(--primary);
+}
+
+.selected-chat span, .selected-chat p{
+    color: #fff;
+}
+
+.selected-chat  .badge{
+    background-color: #fff !important;
+    color: var(--primary);
+}
+
+.selected-chat:hover{
+   background-color: var(--primary);
+}
 </style>

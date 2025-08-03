@@ -9,17 +9,15 @@
                         </div>
                         <div class="chat-profile-name-status">
                             <p class="chat-profile-name"><b>Djon</b></p>
-                            <p class="chat-profile-status" >Last seen recently</p>
+                            <p class="chat-profile-status" >{{lSeen}}</p>
                         </div>
                     </div>
                     <div class="chat-functions"> 
                         <div class="function-list">
-                            <RippleEffect duration="0.4s">
-                                <span>
-                                    <svg viewBox="0 0 16 16"><path fill="currentColor" d="M7 4c0-.139 0-.209.008-.267a.85.85 0 0 1 .724-.724c.059-.008.128-.008.267-.008s.21 0 .267.008a.85.85 0 0 1 .724.724c.008.058.008.128.008.267s0 .209-.008.267a.85.85 0 0 1-.724.724c-.058.008-.128.008-.267.008s-.209 0-.267-.008a.85.85 0 0 1-.724-.724C7 4.209 7 4.139 7 4m0 4c0-.139 0-.209.008-.267a.85.85 0 0 1 .724-.724c.059-.008.128-.008.267-.008s.21 0 .267.008a.85.85 0 0 1 .724.724c.008.058.008.128.008.267s0 .209-.008.267a.85.85 0 0 1-.724.724c-.058.008-.128.008-.267.008s-.209 0-.267-.008a.85.85 0 0 1-.724-.724C7 8.209 7 8.139 7 8m0 4c0-.139 0-.209.008-.267a.85.85 0 0 1 .724-.724c.059-.008.128-.008.267-.008s.21 0 .267.008a.85.85 0 0 1 .724.724c.008.058.008.128.008.267s0 .209-.008.268a.85.85 0 0 1-.724.724C8.208 13 8.138 13 8 13s-.209 0-.267-.008a.85.85 0 0 1-.724-.724C7 12.21 7 12.14 7 12"/></svg>
-                                </span>
-                            </RippleEffect>
-                        </div> 
+                            <span>
+                                <svg viewBox="0 0 16 16"><path fill="currentColor" d="M7 4c0-.139 0-.209.008-.267a.85.85 0 0 1 .724-.724c.059-.008.128-.008.267-.008s.21 0 .267.008a.85.85 0 0 1 .724.724c.008.058.008.128.008.267s0 .209-.008.267a.85.85 0 0 1-.724.724c-.058.008-.128.008-.267.008s-.209 0-.267-.008a.85.85 0 0 1-.724-.724C7 4.209 7 4.139 7 4m0 4c0-.139 0-.209.008-.267a.85.85 0 0 1 .724-.724c.059-.008.128-.008.267-.008s.21 0 .267.008a.85.85 0 0 1 .724.724c.008.058.008.128.008.267s0 .209-.008.267a.85.85 0 0 1-.724.724c-.058.008-.128.008-.267.008s-.209 0-.267-.008a.85.85 0 0 1-.724-.724C7 8.209 7 8.139 7 8m0 4c0-.139 0-.209.008-.267a.85.85 0 0 1 .724-.724c.059-.008.128-.008.267-.008s.21 0 .267.008a.85.85 0 0 1 .724.724c.008.058.008.128.008.267s0 .209-.008.268a.85.85 0 0 1-.724.724C8.208 13 8.138 13 8 13s-.209 0-.267-.008a.85.85 0 0 1-.724-.724C7 12.21 7 12.14 7 12"/></svg>
+                            </span>
+                        </div>
                         <!-- <div class="function-list">
                             <span>
                                 <svg viewBox="0 0 16 16"><path fill="currentColor" d="M7 4c0-.139 0-.209.008-.267a.85.85 0 0 1 .724-.724c.059-.008.128-.008.267-.008s.21 0 .267.008a.85.85 0 0 1 .724.724c.008.058.008.128.008.267s0 .209-.008.267a.85.85 0 0 1-.724.724c-.058.008-.128.008-.267.008s-.209 0-.267-.008a.85.85 0 0 1-.724-.724C7 4.209 7 4.139 7 4m0 4c0-.139 0-.209.008-.267a.85.85 0 0 1 .724-.724c.059-.008.128-.008.267-.008s.21 0 .267.008a.85.85 0 0 1 .724.724c.008.058.008.128.008.267s0 .209-.008.267a.85.85 0 0 1-.724.724c-.058.008-.128.008-.267.008s-.209 0-.267-.008a.85.85 0 0 1-.724-.724C7 8.209 7 8.139 7 8m0 4c0-.139 0-.209.008-.267a.85.85 0 0 1 .724-.724c.059-.008.128-.008.267-.008s.21 0 .267.008a.85.85 0 0 1 .724.724c.008.058.008.128.008.267s0 .209-.008.268a.85.85 0 0 1-.724.724C8.208 13 8.138 13 8 13s-.209 0-.267-.008a.85.85 0 0 1-.724-.724C7 12.21 7 12.14 7 12"/></svg>
@@ -46,21 +44,21 @@
             <div class="input-section">
                 <div class="input-items">
                     <div class="input-input">
-                        <span class="input-icon icon-smile" title="Emojies are not functioning now.">
+                        <span class="input-icon icon-smile">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-smile-icon lucide-smile"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" x2="9.01" y1="9" y2="9"/><line x1="15" x2="15.01" y1="9" y2="9"/></svg>
                         </span>
                         <div class="input-message">
-                            <input v-model.trim="messageText" type="text" name="message" placeholder="Message">
+                            <input type="text" placeholder="Message">
                         </div>
-                        <span class="input-icon icon-paperclip" title="Filing is not functioning now."> 
+                        <span class="input-icon icon-paperclip"> 
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-paperclip-icon lucide-paperclip"><path d="m16 6-8.414 8.586a2 2 0 0 0 2.829 2.829l8.414-8.586a4 4 0 1 0-5.657-5.657l-8.379 8.551a6 6 0 1 0 8.485 8.485l8.379-8.551"/></svg>
                         </span>
                     </div>
                     <div class="input-right">
-                        <span v-if="enabletosendtext" class="input-icon" style="padding: 1px 0px 0px 3px;">
+                        <!-- <span class="input-icon" style="padding: 1px 0px 0px 3px;">
                            <svg viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M2.345 2.245a1 1 0 0 1 1.102-.14l18 9a1 1 0 0 1 0 1.79l-18 9a1 1 0 0 1-1.396-1.211L4.613 13H10a1 1 0 1 0 0-2H4.613L2.05 3.316a1 1 0 0 1 .294-1.071z" clip-rule="evenodd"/></svg>
-                        </span>
-                        <span v-else class="input-icon icon-mic" title="Voice mail is not functioning now.">
+                        </span> -->
+                        <span class="input-icon icon-mic">
                             <svg viewBox="0 0 20 20"><path fill="currentColor" d="M9 18v-1.06A8 8 0 0 1 2 9h2a6 6 0 1 0 12 0h2a8 8 0 0 1-7 7.94V18h3v2H6v-2h3zM6 4a4 4 0 1 1 8 0v5a4 4 0 1 1-8 0V4z"/></svg>
                         </span>
                     </div>
@@ -71,18 +69,11 @@
 </template>
 
 <script>
-import RippleEffect from './UI/RippleEffect.vue';
-
 export default{
     name:'ChatSide',
     data(){
         return{
-            messageText:"",
-        }
-    },
-    computed:{
-        enabletosendtext(){
-            return true ? this.messageText != "" : false
+            lSeen:"Last seen recently"
         }
     }
 }
@@ -148,7 +139,6 @@ export default{
     cursor: pointer;
     padding-top: 3px;
     transition:all 0.2s ease;
-    overflow: hidden;
 }
 
 .function-list:hover{
@@ -267,12 +257,6 @@ export default{
 
 .icon-mic svg{
     max-width: 21px;
-}
-
-.rippleeffect{
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
 
