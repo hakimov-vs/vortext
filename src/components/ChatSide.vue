@@ -1,5 +1,5 @@
 <template>
-    <div id="chat-side">
+    <div id="chat-side" v-if="store.selectedChat">
         <div class="header">
            <div class="header-bar">
                 <div class="chat-thumbnails">
@@ -11,12 +11,15 @@
                                 </span>
                             </RippleEffect>
                         </div>
-                        <div class="chat-profile-image">
-                            <img src="/images/img2.jpg" alt="User profile">
+                        <div class="chat-profile-image" v-if="hasImage">
+                            <img :src="store.selectedChat.imgURL" alt="User profile">
+                        </div>
+                        <div class="no-image" v-else :style="{ backgroundColor: store.randomBgColor }">
+                            <span>{{ firstLetter }}</span>
                         </div>
                         <div class="chat-profile-name-status">
-                            <p class="chat-profile-name"><b>Djon</b></p>
-                            <p class="chat-profile-status" >Last seen recently</p>
+                            <p class="chat-profile-name"><b>{{ store.selectedChat.name }}</b></p>
+                            <p class="chat-profile-status" >{{ store.selectedChat.date }}</p>
                         </div>
                     </div>
                     <div class="chat-functions"> 
@@ -75,20 +78,33 @@
             </div>
         </div>
     </div>
+    <div class="message-section" v-else>
+
+    </div>
 </template>
 
 <script>
+import { store } from '@/store/store.js';
 
 export default{
     name:'ChatSide',
     data(){
         return{
             messageText:"",
+            store
         }
     },
     computed:{
         enabletosendtext(){
             return true ? this.messageText != "" : false
+        }
+    },
+    computed:{
+        hasImage() {
+            return !!this.store.selectedChat.imgURL;
+        },
+        firstLetter() {
+            return this.store.selectedChat.name ? this.store.selectedChat.name.charAt(0).toUpperCase() : '?';
         }
     }
 }
@@ -304,6 +320,20 @@ export default{
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.no-image{
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.no-image span {
+    font-size: 20px;
+    color: white;
 }
 
 

@@ -32,8 +32,7 @@
                 :date="chat.date"
                 :lmessage="chat.lmessage"
                 :unread="chat.unread"
-                :isSelected="chat.userId === selectedUserId"
-                 @select="handleSelect(chat.userId)"
+                @click="selectChatHandle(chat)"
                 />
             </div>
             <!-- <div class="chat-lists">
@@ -47,17 +46,17 @@
 <script>
 import ChatBlock from '@/components/UI/ChatBlock.vue';
 import RippleEffect from './UI/RippleEffect.vue';
+import { store } from '@/store/store.js';
 
 export default{
     name:'SideBar',
     data(){
         return{
-            selectedUserId: null,
             chatListData:[
                     { userId: 1,  imgURL: '', name: 'Emily',     date: '03/02/2025', lmessage: 'Let me know when you’re free.', unread: 5 },
                     { userId: 2,  imgURL: '/images/img2.jpg', name: 'Michael',   date: '03/03/2025', lmessage: 'I’ll call you back in 5 minutes.', unread: 65 },
                     { userId: 3,  imgURL: '/images/img2.jpg', name: 'Sofia',     date: '03/04/2025', lmessage: 'Thanks for your help today!', unread: 0 },
-                    { userId: 4,  imgURL: '/images/img2.jpg', name: 'Liam',      date: '03/05/2025', lmessage: 'Meeting was postponed to Friday.', unread: 8 },
+                    { userId: 4,  imgURL: '/images/img2.jpg', name: 'Liam',      date: '03/05/2025', lmessage: 'Meeting was postponed to Friday.', unread: 75 },
                     { userId: 5,  imgURL: '/images/img2.jpg', name: 'Olivia',    date: '03/06/2025', lmessage: 'Did you receive the documents?', unread: 13 },
                     { userId: 6,  imgURL: '/images/img2.jpg', name: 'Noah',      date: '03/07/2025', lmessage: 'Everything is going great!', unread: 25 },
                     { userId: 7,  imgURL: '', name: 'Isabella',  date: '03/08/2025', lmessage: 'Happy Birthday! 🎉', unread: 3 },
@@ -79,11 +78,11 @@ export default{
         }
     },
     mounted(){
-          this.chatListData = this.chatListData.sort((a, b) => b.unread - a.unread);
+          this.chatListData.sort((a, b) => b.unread - a.unread);
     },
     methods:{
-        handleSelect(userId) {
-             this.selectedUserId = userId;
+        selectChatHandle(chat) {
+             store.selectThisChat(chat)
         }
     },
     components:{

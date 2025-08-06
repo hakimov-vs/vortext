@@ -1,6 +1,6 @@
 <template>
     <RippleEffect duration="0.6s">
-        <div class="chats" :class="{'selected-chat': isSelected }" @click="$emit('select')">
+        <div class="chats">
             <div class="chat-profile">
                 <template v-if="hasImage">
                     <img :src="imgURL" alt="Profile picture" />
@@ -42,18 +42,15 @@
 </template>
 
 <script>
+import { store } from '@/store/store.js';
 export default{
     name:'ChatBlock',
     data(){
         return{
-            selected:false
+    
         }
     },
     props:{
-        isSelected:{
-            type: Boolean,
-            default: false
-        },
         imgURL:{
             type: String,
             default: ""
@@ -77,11 +74,6 @@ export default{
         }
 
     },
-    methods:{
-        slecetthischat(value){
-            this.selected = value;
-        }   
-    },
     computed:{
         hasImage() {
             return !!this.imgURL;
@@ -96,7 +88,10 @@ export default{
             '#8B4513', '#556B2F'
             ];
             const index = Math.floor(Math.random() * colors.length)
-            return colors[index];
+            let color = colors[index]
+            store.setRandomBgColor(color)
+            console.log(color)
+            return color;
         },
     }
 }
