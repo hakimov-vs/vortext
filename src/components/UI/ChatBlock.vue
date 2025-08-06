@@ -1,6 +1,6 @@
 <template>
-    <RippleEffect duration="0.6s">
-        <div class="chats">
+    <RippleEffect duration="0.6s" @click="$emit('selectThisChatEmit', randomColor, userId)">
+        <div class="chats" :class="{'selected-chat': changeBgSelected}">
             <div class="chat-profile">
                 <template v-if="hasImage">
                     <img :src="imgURL" alt="Profile picture" />
@@ -42,12 +42,13 @@
 </template>
 
 <script>
-import { store } from '@/store/store.js';
+import { store } from '@/store/store';
+
 export default{
     name:'ChatBlock',
     data(){
         return{
-    
+            
         }
     },
     props:{
@@ -71,6 +72,14 @@ export default{
             type: Number,
             default: 0,
             required: true
+        },
+        userId:{
+            type: Number,
+            default: null
+        },
+        selectedID:{
+            type: Number,
+            default: null
         }
 
     },
@@ -81,7 +90,7 @@ export default{
         firstLetter() {
             return this.name ? this.name.charAt(0).toUpperCase() : '?';
         },
-         randomColor() {
+        randomColor() {
             const colors = [
             '#4169E1', '#483D8B', '#008B8B', '#4682B4',
             '#C71585', '#3CB371', '#708090', '#B22222',
@@ -89,9 +98,11 @@ export default{
             ];
             const index = Math.floor(Math.random() * colors.length)
             let color = colors[index]
-            store.setRandomBgColor(color)
-            console.log(color)
             return color;
+           
+        },
+        changeBgSelected(){
+            return this.userId === this.selectedID  
         },
     }
 }

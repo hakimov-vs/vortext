@@ -1,10 +1,10 @@
 <template>
-    <div id="chat-side" v-if="store.selectedChat">
+    <div id="chat-side" v-if="store.selectedChat" :class="{'open-chatside-mobile': store.selectedChat}">
         <div class="header">
            <div class="header-bar">
                 <div class="chat-thumbnails">
                     <div class="chat-profile">
-                        <div class="back-to-home">
+                        <div class="back-to-home" @click="store.unselecetChat()">
                             <RippleEffect duration="0.4s">
                                 <span>
                                     <svg  viewBox="0 0 1024 1024"><path fill="currentColor" d="M224 480h640a32 32 0 1 1 0 64H224a32 32 0 0 1 0-64z"/><path fill="currentColor" d="m237.248 512l265.408 265.344a32 32 0 0 1-45.312 45.312l-288-288a32 32 0 0 1 0-45.312l288-288a32 32 0 1 1 45.312 45.312L237.248 512z"/></svg>
@@ -339,8 +339,14 @@ export default{
 
 @media (max-width: 900px) {
     #chat-side{
-        /* display: none; */
-        width: 100%;
+        display: none;
+    }
+    .open-chatside-mobile{
+        width: 100% !important;
+        flex: 1 !important;
+        height: 100% !important;
+        display: flex !important; 
+        flex-direction: column !important;  
     }
 
     .back-to-home{

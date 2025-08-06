@@ -1,5 +1,5 @@
 <template>
-    <div id="side-bar">
+    <div id="side-bar" :class="{'open-sidebar-mobile': !store.selectedChat}">
         <div class="header">
             <div class="header-bar">
                 <div class="header-menu">
@@ -32,6 +32,9 @@
                 :date="chat.date"
                 :lmessage="chat.lmessage"
                 :unread="chat.unread"
+                :userId="chat.userId"
+                :selectedID="selectedIDData"
+                @selectThisChatEmit="SelectThisChatEmitHandle"
                 @click="selectChatHandle(chat)"
                 />
             </div>
@@ -52,6 +55,7 @@ export default{
     name:'SideBar',
     data(){
         return{
+            selectedIDData: null,
             chatListData:[
                     { userId: 1,  imgURL: '', name: 'Emily',     date: '03/02/2025', lmessage: 'Let me know when you’re free.', unread: 5 },
                     { userId: 2,  imgURL: '/images/img2.jpg', name: 'Michael',   date: '03/03/2025', lmessage: 'I’ll call you back in 5 minutes.', unread: 65 },
@@ -74,7 +78,8 @@ export default{
                     { userId: 19, imgURL: '', name: 'Evelyn',    date: '03/20/2025', lmessage: 'Hope you had a great weekend!', unread: 5 },
                     { userId: 20, imgURL: '/images/img2.jpg', name: 'Alexander', date: '03/21/2025', lmessage: 'Did you finish the report?', unread: 0 }
 
-            ]
+            ],
+            store
         }
     },
     mounted(){
@@ -83,6 +88,10 @@ export default{
     methods:{
         selectChatHandle(chat) {
              store.selectThisChat(chat)
+        },
+        SelectThisChatEmitHandle(color, userId){
+            store.setRandomBgColor(color)
+            this.selectedIDData = userId
         }
     },
     components:{
@@ -195,8 +204,17 @@ export default{
 
 @media (max-width: 900px) {
     #side-bar{
-        /* width: 100%; */
         display: none;
     }
+    .open-sidebar-mobile{
+        min-width: 100% !important;
+        max-width: 100% !important;
+        height: 100% !important;
+        flex: 1 !important;
+        overflow: hidden !important;
+        display: flex !important;
+        flex-direction: column !important;
+    }
+    
 }
 </style>

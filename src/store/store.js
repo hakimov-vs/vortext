@@ -11,5 +11,8 @@ export const store = reactive({
     },
     setRandomBgColor(color){
         this.randomBgColor = color
+    },
+    unselecetChat(){
+        this.selectedChat = null
     }
 })

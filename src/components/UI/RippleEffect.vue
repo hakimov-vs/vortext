@@ -13,9 +13,7 @@ export default {
         effectRipple(event){
             let effective = this.$refs.rippleeffect;
             let ripple = document.createElement('div');
-            if(effective.querySelectorAll('.ripple').length > 0){
-                effective.removeChild(effective.querySelector(".ripple"));
-            }
+            document.querySelectorAll('.ripple').forEach(el => el.remove());
             effective.appendChild(ripple);     
             var d = Math.max(effective.clientWidth, effective.clientHeight);
             ripple.style.width = ripple.style.height = d + 'px';
