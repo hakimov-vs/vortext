@@ -7,7 +7,6 @@ import RippleEffect from '@/components/UI/RippleEffect.vue'
 
 
 const app = createApp(App)
-
 app.component(BadgeUI.name, BadgeUI)
 app.component(RippleEffect.name, RippleEffect)
 

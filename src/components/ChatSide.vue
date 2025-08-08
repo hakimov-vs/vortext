@@ -46,11 +46,16 @@
         </div>
         <div class="message-section">
             <div class="message-block scrollbar-y-style" style="display: flex; align-items: center; flex-direction: column;">
-               <div style="font-size: 18px; margin-bottom: 15px; padding: 10px; border-radius: 10px; background-color: var(--success);
-               color: #fff; width: 90%;" v-for="i in [1,2,3,4,5,6,7,8,9,10,11,12]" :key="i">
-                    <p>
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolore sint delectus, dignissimos cumque inventore, recusandae tempora rem, id tenetur praesentium assumenda? Maiores eius voluptas quia, dolorum excepturi modi veniam reiciendis.
-                    </p>
+               <div class="message-bubbles">
+                    <div class="m-bubble" v-for="i in [1,2,3,4,5,6,7,8,9,10,11,12]" :key="i" :class="{'m-bubble-received':i % 2 == 0, 'm-bubble-sent': i % 2 == 1 }">
+                        <p v-if="i % 2 == 1" >
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex iure in nulla non aperiam, dolore veniam quo iusto cum pariatur? Minima sed repudiandae temporibus tempore ratione quos libero exercitationem sequi?
+                        </p>
+                        <p v-else>
+                            lorem
+                        </p>
+                        <span>20/20/2025</span>
+                    </div>
                </div>
             </div>
             <div class="input-section">
@@ -85,7 +90,6 @@
 
 <script>
 import { store } from '@/store/store.js';
-
 export default{
     name:'ChatSide',
     data(){
@@ -97,9 +101,7 @@ export default{
     computed:{
         enabletosendtext(){
             return true ? this.messageText != "" : false
-        }
-    },
-    computed:{
+        },
         hasImage() {
             return !!this.store.selectedChat.imgURL;
         },
@@ -225,7 +227,7 @@ export default{
 }
 
 .input-section{
-    height: 70px;
+    height: 75px;
     display: flex;
     justify-content: center;
 }
@@ -235,7 +237,7 @@ export default{
     height: 100%;
     display: flex;
     align-items: center;
-    padding: 5px 0px 12px 0px;
+    padding: 10px 0px 12px 0px;
 }
 
 .input-input{
@@ -336,6 +338,69 @@ export default{
     color: white;
 }
 
+.message-bubbles{
+    display: flex;
+    flex-direction: column;
+}
+
+
+
+.m-bubble{
+    width: auto;
+    max-width: 94%;
+    display: inline-block;
+    margin-top: 15px;
+    padding: 12px;
+    position: relative;
+    border-radius: 10px;
+    font-size: 17px;
+}
+
+.m-bubble span{
+    display: block;
+    margin-top: 8px;
+    font-size: 0.8em;
+    opacity: 0.7;
+}
+
+.m-bubble::after{
+    content: "";
+    position: absolute;
+    width: 17px;
+    height: 17px;
+    
+} 
+
+.m-bubble-received {
+    align-self: flex-start;
+    margin-left: 3%;
+    background-color: #fff;
+    border-bottom-left-radius: 0px;
+}
+
+.m-bubble-sent{
+    align-self: flex-end;
+    margin-right: 3%;
+    background-color: rgb(220, 248, 200);
+    border-bottom-right-radius: 0px;
+}
+
+.m-bubble-sent span{
+    text-align: right;
+}
+
+.m-bubble-sent::after{
+    transform: rotate(-90deg);
+    right: -13px;
+    bottom: 0;
+    background: linear-gradient(150deg, rgb(220, 248, 200) 0%, rgb(220, 248, 200) 50%, transparent 50%, transparent);
+}
+
+.m-bubble-received::after{
+    left: -13px;
+    bottom: 0;
+    background: linear-gradient(300deg, #fff 0%, #fff 50%, transparent 50%, transparent);
+}
 
 @media (max-width: 900px) {
     #chat-side{
@@ -378,6 +443,15 @@ export default{
         width: 17px;
         height: 17px;
         right: -12px;
+    }
+    .m-bubble{
+        max-width: 90%;
+    }
+    .m-bubble-sent{
+        margin-right: 5%;
+    }
+    .m-bubble-received{
+        margin-left: 5%;
     }
     
 }
