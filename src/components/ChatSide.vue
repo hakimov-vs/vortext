@@ -23,12 +23,61 @@
                         </div>
                     </div>
                     <div class="chat-functions"> 
-                        <div class="function-list">
-                            <RippleEffect duration="0.4s">
-                                <span>
-                                    <svg viewBox="0 0 16 16"><path fill="currentColor" d="M7 4c0-.139 0-.209.008-.267a.85.85 0 0 1 .724-.724c.059-.008.128-.008.267-.008s.21 0 .267.008a.85.85 0 0 1 .724.724c.008.058.008.128.008.267s0 .209-.008.267a.85.85 0 0 1-.724.724c-.058.008-.128.008-.267.008s-.209 0-.267-.008a.85.85 0 0 1-.724-.724C7 4.209 7 4.139 7 4m0 4c0-.139 0-.209.008-.267a.85.85 0 0 1 .724-.724c.059-.008.128-.008.267-.008s.21 0 .267.008a.85.85 0 0 1 .724.724c.008.058.008.128.008.267s0 .209-.008.267a.85.85 0 0 1-.724.724c-.058.008-.128.008-.267.008s-.209 0-.267-.008a.85.85 0 0 1-.724-.724C7 8.209 7 8.139 7 8m0 4c0-.139 0-.209.008-.267a.85.85 0 0 1 .724-.724c.059-.008.128-.008.267-.008s.21 0 .267.008a.85.85 0 0 1 .724.724c.008.058.008.128.008.267s0 .209-.008.268a.85.85 0 0 1-.724.724C8.208 13 8.138 13 8 13s-.209 0-.267-.008a.85.85 0 0 1-.724-.724C7 12.21 7 12.14 7 12"/></svg>
-                                </span>
-                            </RippleEffect>
+                        <div class="function-list" @focusout="dropMenuState = false" tabindex="1" >
+                            <div style="overflow: hidden; border-radius: 50%; height: 100%;">
+                                <RippleEffect duration="0.4s" @click="dropMenuState = !dropMenuState" style="padding-top: 3px;">
+                                    <span>
+                                        <svg viewBox="0 0 16 16"><path fill="currentColor" d="M7 4c0-.139 0-.209.008-.267a.85.85 0 0 1 .724-.724c.059-.008.128-.008.267-.008s.21 0 .267.008a.85.85 0 0 1 .724.724c.008.058.008.128.008.267s0 .209-.008.267a.85.85 0 0 1-.724.724c-.058.008-.128.008-.267.008s-.209 0-.267-.008a.85.85 0 0 1-.724-.724C7 4.209 7 4.139 7 4m0 4c0-.139 0-.209.008-.267a.85.85 0 0 1 .724-.724c.059-.008.128-.008.267-.008s.21 0 .267.008a.85.85 0 0 1 .724.724c.008.058.008.128.008.267s0 .209-.008.267a.85.85 0 0 1-.724.724c-.058.008-.128.008-.267.008s-.209 0-.267-.008a.85.85 0 0 1-.724-.724C7 8.209 7 8.139 7 8m0 4c0-.139 0-.209.008-.267a.85.85 0 0 1 .724-.724c.059-.008.128-.008.267-.008s.21 0 .267.008a.85.85 0 0 1 .724.724c.008.058.008.128.008.267s0 .209-.008.268a.85.85 0 0 1-.724.724C8.208 13 8.138 13 8 13s-.209 0-.267-.008a.85.85 0 0 1-.724-.724C7 12.21 7 12.14 7 12"/></svg>
+                                    </span>
+                                </RippleEffect>
+                            </div>
+                             <div class="drop-down-vortex menu-chat-profile" :class="{'drop-down-vortex-open': dropMenuState}">
+                                <div class="drop-down-menu">
+                                    <div class="drop-menu-items">
+                                        <div class="drop-menu-items-left w-auto">
+                                            <div class="dr-menu-item-icon w-auto">
+                                                <svg  viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2"><path stroke-linejoin="round" d="M4 18a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2Z"/><circle cx="12" cy="7" r="3"/></g></svg>
+                                            </div>
+                                            <div class="dr-menu-item-text w-auto">
+                                                <span>
+                                                    Profile
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="drop-menu-items-right w-auto">
+                                            <svg viewBox="0 0 17 16"><path fill="currentColor" fill-rule="evenodd" d="M6.077 1.162c0 .225.062.45.196.65l4.156 6.229l-4.197 6.037a1.175 1.175 0 0 0 .328 1.629a1.174 1.174 0 0 0 1.63-.325l4.63-6.688c.264-.394.266-.908.002-1.304L8.233.51a1.178 1.178 0 0 0-2.156.652z"/></svg>
+                                        </div>
+                                    </div>
+                                    <div class="drop-menu-items">
+                                        <div class="drop-menu-items-left w-auto">
+                                            <div class="dr-menu-item-icon w-auto">
+                                                <svg viewBox="0 0 24 24"><g fill="none"><path d="M24 0v24H0V0h24ZM12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035c-.01-.004-.019-.001-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427c-.002-.01-.009-.017-.017-.018Zm.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093c.012.004.023 0 .029-.008l.004-.014l-.034-.614c-.003-.012-.01-.02-.02-.022Zm-.715.002a.023.023 0 0 0-.027.006l-.006.014l-.034.614c0 .012.007.02.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01l-.184-.092Z"/><path fill="currentColor" d="M8.122 3.464c.665-.666 1.784-.24 1.872.662l.006.115V20a1 1 0 0 1-1.993.117L8 20V6.414L5.707 8.707a1 1 0 0 1-1.497-1.32l.083-.094l3.83-3.83ZM15 3a1 1 0 0 1 .993.883L16 4v13.586l2.293-2.293a1 1 0 0 1 1.497 1.32l-.083.094l-3.83 3.83c-.664.665-1.783.239-1.871-.663L14 19.759V4a1 1 0 0 1 1-1Z"/></g></svg>
+                                            </div>
+                                            <div class="dr-menu-item-text w-auto">
+                                                <span>
+                                                    Transfer
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="drop-menu-items-right w-auto">
+                                            <svg viewBox="0 0 17 16"><path fill="currentColor" fill-rule="evenodd" d="M6.077 1.162c0 .225.062.45.196.65l4.156 6.229l-4.197 6.037a1.175 1.175 0 0 0 .328 1.629a1.174 1.174 0 0 0 1.63-.325l4.63-6.688c.264-.394.266-.908.002-1.304L8.233.51a1.178 1.178 0 0 0-2.156.652z"/></svg>
+                                        </div>
+                                    </div>
+                                    <div class="drop-menu-items">
+                                        <div class="drop-menu-items-left w-auto">
+                                            <div class="dr-menu-item-icon w-auto">
+                                                <svg viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" color="currentColor"><path d="m21 3l-8 8.5m-3.554-.415c-2.48.952-4.463.789-6.446.003c.5 6.443 3.504 8.92 7.509 9.912c0 0 3.017-2.134 3.452-7.193c.047-.548.07-.821-.043-1.13c-.114-.309-.338-.53-.785-.973c-.736-.728-1.103-1.092-1.54-1.184c-.437-.09-1.007.128-2.147.565"/><path d="M4.5 16.446S7 16.93 9.5 15m-1-7.75a1.25 1.25 0 1 1-2.5 0a1.25 1.25 0 0 1 2.5 0M11 4v.1"/></g></svg>
+                                            </div>
+                                            <div class="dr-menu-item-text w-auto">
+                                                <span>
+                                                    Clean chat
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="drop-menu-items-right w-auto"></div>
+                                    </div>
+                                </div>
+                            </div>
                         </div> 
                         <!-- <div class="function-list">
                             <span>
@@ -95,6 +144,7 @@ export default{
     data(){
         return{
             messageText:"",
+            dropMenuState: false,
             store
         }
     },
@@ -130,6 +180,7 @@ export default{
     width: auto;
     display: flex;
 }
+
 
 .back-to-home{
     display: none !important;
@@ -195,9 +246,8 @@ export default{
     margin-left: 10px;
     border-radius: 50%;
     cursor: pointer;
-    padding-top: 3px;
     transition:all 0.2s ease;
-    overflow: hidden;
+    position: relative;
 }
 
 .function-list:hover{
@@ -400,6 +450,14 @@ export default{
     left: -13px;
     bottom: 0;
     background: linear-gradient(300deg, #fff 0%, #fff 50%, transparent 50%, transparent);
+}
+
+.menu-chat-profile{
+    width: 200px;
+    right: 0;
+    top: 52px;
+    /* transform: scale(0.8) translate(13%, -13%); */
+    
 }
 
 @media (max-width: 900px) {

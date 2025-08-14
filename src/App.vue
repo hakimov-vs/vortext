@@ -1,19 +1,29 @@
 <template>
   <div id="screen">
-    <SideBar/>
-    <ChatSide/>
+    <template v-if="userLoggedIn">
+      <SideBar/>
+      <ChatSide/>
+    </template>
+    <InitialView v-else/>
   </div>
 </template>
 
 <script>
 import SideBar from '@/components/SideBar.vue';
 import ChatSide from '@/components/ChatSide.vue';
+import InitialView from '@/components/InitialView.vue';
 
 export default {
   name: 'App',
+  data(){
+    return{
+      userLoggedIn: true
+    }
+  },
   components:{
     SideBar,
-    ChatSide
+    ChatSide,
+    InitialView
   }
 
 }

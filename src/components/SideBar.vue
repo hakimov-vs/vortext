@@ -3,11 +3,58 @@
         <div class="header">
             <div class="header-bar">
                 <div class="header-menu">
-                    <div class="menu-items">
-                        <div class="pr-ripple">
+                    <div class="menu-items" @focusout="dropMenuState = false" tabindex="0" >
+                        <div class="pr-ripple" @click="dropMenuState = !dropMenuState">
                             <RippleEffect duration="0.4s"></RippleEffect>
                         </div>
                         <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"  stroke-linecap="round" ><path d="M3 12h18"/><path d="M3 18h18"/><path d="M3 6h18"/></svg>
+                        <div class="drop-down-vortex menu-profile" :class="{'drop-down-vortex-open': dropMenuState}">
+                            <div class="drop-down-menu">
+                                <div class="drop-menu-items" title="Not functioning">
+                                    <div class="drop-menu-items-left w-auto">
+                                        <div class="dr-menu-item-icon w-auto">
+                                            <svg  viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2"><path stroke-linejoin="round" d="M4 18a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2Z"/><circle cx="12" cy="7" r="3"/></g></svg>
+                                        </div>
+                                        <div class="dr-menu-item-text w-auto">
+                                            <span>
+                                                Profile
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="drop-menu-items-right w-auto">
+                                        <svg viewBox="0 0 17 16"><path fill="currentColor" fill-rule="evenodd" d="M6.077 1.162c0 .225.062.45.196.65l4.156 6.229l-4.197 6.037a1.175 1.175 0 0 0 .328 1.629a1.174 1.174 0 0 0 1.63-.325l4.63-6.688c.264-.394.266-.908.002-1.304L8.233.51a1.178 1.178 0 0 0-2.156.652z"/></svg>
+                                    </div>
+                                </div>
+                                <div class="drop-menu-items" title="Not functioning">
+                                    <div class="drop-menu-items-left w-auto">
+                                        <div class="dr-menu-item-icon w-auto">
+                                            <svg viewBox="0 0 512 512"><path fill="currentColor" d="M489.972 119.059a23.839 23.839 0 0 0-17-7.059H456V72a24.027 24.027 0 0 0-24-24H86.627A70.628 70.628 0 0 0 16 118.627v274.746A70.628 70.628 0 0 0 86.627 464h385.4a24.047 24.047 0 0 0 24-23.923l.944-303.995a23.837 23.837 0 0 0-6.999-17.023ZM464.053 432H86.627A38.627 38.627 0 0 1 48 393.373V118.627A38.627 38.627 0 0 1 86.627 80H424v32H88v32h376.947Z"/><path fill="currentColor" d="M392 264h32v32h-32z"/></svg>
+                                        </div>
+                                        <div class="dr-menu-item-text w-auto">
+                                            <span>
+                                                Wallet
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="drop-menu-items-right w-auto">
+                                        <svg viewBox="0 0 17 16"><path fill="currentColor" fill-rule="evenodd" d="M6.077 1.162c0 .225.062.45.196.65l4.156 6.229l-4.197 6.037a1.175 1.175 0 0 0 .328 1.629a1.174 1.174 0 0 0 1.63-.325l4.63-6.688c.264-.394.266-.908.002-1.304L8.233.51a1.178 1.178 0 0 0-2.156.652z"/></svg>
+                                    </div>
+                                </div>
+                                <div class="drop-menu-items">
+                                    <div class="drop-menu-items-left w-auto">
+                                        <div class="dr-menu-item-icon w-auto">
+                                           <svg viewBox="0 0 24 24"><g fill="currentColor"><path fill-rule="evenodd" d="M11 20a1 1 0 0 0-1-1H5V5h5a1 1 0 1 0 0-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h5a1 1 0 0 0 1-1z" clip-rule="evenodd"/><path d="M21.714 12.7a.996.996 0 0 0 .286-.697v-.006a.997.997 0 0 0-.293-.704l-4-4a1 1 0 1 0-1.414 1.414L18.586 11H9a1 1 0 1 0 0 2h9.586l-2.293 2.293a1 1 0 0 0 1.414 1.414l4-4l.007-.007z"/></g></svg>
+                                        </div>
+                                        <div class="dr-menu-item-text w-auto">
+                                            <span>
+                                                Log out
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="drop-menu-items-right w-auto"></div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="header-search">
@@ -56,6 +103,7 @@ export default{
     data(){
         return{
             selectedIDData: null,
+            dropMenuState: false,
             chatListData:[
                     { userId: 1,  imgURL: '', name: 'Emily',     date: '03/02/2025', lmessage: 'Let me know when you’re free.', unread: 5 },
                     { userId: 2,  imgURL: '/images/img2.jpg', name: 'Michael',   date: '03/03/2025', lmessage: 'I’ll call you back in 5 minutes.', unread: 65 },
@@ -101,7 +149,7 @@ export default{
 }
 </script>
 
-<style scoped>
+<style >
 #side-bar{
     width: 430px;
     height: 100%;
@@ -194,7 +242,67 @@ export default{
     padding: 4px 6px;
 }
 
+.drop-down-vortex{
+    position: absolute;
+    height: auto;
+    background-color: hsla(0, 0%, 100%, 0.9);
+    backdrop-filter: blur(50px);
+    -webkit-backdrop-filter: blur(50px);
+    padding: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, .15);
+    border-radius: 10px;
+    z-index: 1;
+    transition: opacity .2s ease, transform .2s ease, visibility .2s ease-out;
+    opacity: 0;
+    visibility: hidden;
+}
 
+.menu-profile{
+    width: 300px;
+    left: 0px;
+    top: 52px;
+
+}
+
+.drop-menu-items{
+    font-family: roboto-medium;
+    font-size: 18px;
+    padding: 7px 15px 8.5px 15px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.drop-menu-items:hover{
+    background-color: #f0f0f0;
+}
+
+.drop-menu-items-left{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.dr-menu-item-icon {
+    padding-top: 3.5px;
+    padding-right: 8px;
+}
+
+.drop-menu-items svg{
+    width: 25px;
+}
+
+.drop-menu-items-right svg{
+    width: 15px;
+    margin-top: 7px;
+}
+
+.drop-down-vortex-open{
+    visibility: visible;
+    opacity: 1;
+    transform: unset;
+}
 
 @media (max-width: 1200px) {
     #side-bar{
