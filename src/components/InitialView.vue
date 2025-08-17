@@ -1,4 +1,9 @@
 <template>
+    <div class="loader-container" v-if="loading">
+        <div class="loader">
+
+        </div>
+    </div>
     <div class="container">
         <div class="form-container">
             <div class="vortext-title">
@@ -32,7 +37,7 @@
                     </div>
 
                     <div v-else key="signup" class="signup-form">
-                        <form>
+                        <form @submit.prevent="registerHandle">
                             <input type="text" name="text" class="form-input" placeholder="Name">
                             <input type="email" name="email" class="form-input" placeholder="email">
                             <input type="password" name="password" class="form-input" placeholder="password">
@@ -47,6 +52,9 @@
                             </label>
                             <input type="submit" class="form-input form-submit" value="Sign Up">
                         </form>
+                        <span v-if="registerError" style="margin-top: 10px; display: inline-block; color: red;">
+                            {{ registerError }}
+                        </span>
                         <p class="form-changeto">
                             Already have account?
                             <span @click="exsistUser = true">Login</span>
@@ -59,14 +67,73 @@
 </template>
 
 <script>
+import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
+import { auth, db } from '@/firebase';
+import { doc, setDoc } from "firebase/firestore"; 
+
 export default {
     name:"InitialView",
     data(){
         return {
-            exsistUser: true
+            registerError: null,
+            exsistUser: true,
+            loading: false 
         }
+    },
+    methods:{
+            async registerHandle(e) {
+                this.loading = true;  // start loader
+                this.registerError = null;
+
+                const name = e.target[0].value;
+                const email = e.target[1].value;
+                const password = e.target[2].value;
+                const photo = e.target[3].files[0];
+
+                try {
+                    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                    const user = userCredential.user;
+
+                    let photoUrl = null;
+                    if (photo) {
+                        const formData = new FormData();
+                        formData.append("file", photo);
+                        formData.append("upload_preset", import.meta.env.VITE_UNSIGNED_PRESET);
+
+                        const res = await fetch(`https://api.cloudinary.com/v1_1/${import.meta.env.VITE_CLOUDINARY_CLOUD_NAME}/image/upload`, {
+                            method: "POST",
+                            body: formData
+                        });
+
+                        const data = await res.json();
+                        photoUrl = data.secure_url; 
+                    }
+
+                    await updateProfile(user, {
+                        displayName: name,
+                        photoURL: photoUrl
+                    })
+
+                   
+                    await setDoc(doc(db, "users", user.uid), {
+                        uid: user.uid,
+                        name,
+                        email,
+                        photoUrl, // now will be either URL or null
+                        lastSeen: null
+                    });
+                    await setDoc(doc(db, "userChats", user.uid), {});
+                } 
+                catch (error) {
+                    this.registerError = error.message.slice(9, );
+                }finally {
+                    this.loading = false; // stop loader
+                }
+        }
+
     }
 }
+
 </script>
 
 <style>
@@ -163,6 +230,7 @@ export default {
   opacity: 1;
   transform: scale(1);
 }
+
 
 
 </style>

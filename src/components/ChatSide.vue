@@ -1,7 +1,7 @@
 <template>
-    <div id="chat-side" v-if="store.selectedChat" :class="{'open-chatside-mobile': store.selectedChat}">
+    <div id="chat-side" v-if="store.selectedChat" :class="{ 'anime_deactivate_mobile': !store.selectedChat, 'anime_activate_mobile': store.selectedChat  }"> 
         <div class="header">
-           <div class="header-bar">
+        <div class="header-bar">
                 <div class="chat-thumbnails">
                     <div class="chat-profile">
                         <div class="back-to-home" @click="store.unselecetChat()">
@@ -31,7 +31,7 @@
                                     </span>
                                 </RippleEffect>
                             </div>
-                             <div class="drop-down-vortex menu-chat-profile" :class="{'drop-down-vortex-open': dropMenuState}">
+                            <div class="drop-down-vortex menu-chat-profile" :class="{'drop-down-vortex-open': dropMenuState}">
                                 <div class="drop-down-menu">
                                     <div class="drop-menu-items">
                                         <div class="drop-menu-items-left w-auto">
@@ -91,11 +91,11 @@
                         </div> -->
                     </div>
                 </div>
-           </div>
+        </div>
         </div>
         <div class="message-section">
             <div class="message-block scrollbar-y-style" style="display: flex; align-items: center; flex-direction: column;">
-               <div class="message-bubbles">
+            <div class="message-bubbles">
                     <div class="m-bubble" v-for="i in [1,2,3,4,5,6,7,8,9,10,11,12]" :key="i" :class="{'m-bubble-received':i % 2 == 0, 'm-bubble-sent': i % 2 == 1 }">
                         <p v-if="i % 2 == 1" >
                             Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex iure in nulla non aperiam, dolore veniam quo iusto cum pariatur? Minima sed repudiandae temporibus tempore ratione quos libero exercitationem sequi?
@@ -103,9 +103,9 @@
                         <p v-else>
                             lorem
                         </p>
-                        <span>20/20/2025</span>
+                        <span>20/20/2025 <span style="margin-top: 3px;">read</span></span>
                     </div>
-               </div>
+            </div>
             </div>
             <div class="input-section">
                 <div class="input-items">
@@ -122,7 +122,7 @@
                     </div>
                     <div class="input-right">
                         <span v-if="enabletosendtext" class="input-icon" style="padding: 1px 0px 0px 3px;">
-                           <svg viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M2.345 2.245a1 1 0 0 1 1.102-.14l18 9a1 1 0 0 1 0 1.79l-18 9a1 1 0 0 1-1.396-1.211L4.613 13H10a1 1 0 1 0 0-2H4.613L2.05 3.316a1 1 0 0 1 .294-1.071z" clip-rule="evenodd"/></svg>
+                        <svg viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M2.345 2.245a1 1 0 0 1 1.102-.14l18 9a1 1 0 0 1 0 1.79l-18 9a1 1 0 0 1-1.396-1.211L4.613 13H10a1 1 0 1 0 0-2H4.613L2.05 3.316a1 1 0 0 1 .294-1.071z" clip-rule="evenodd"/></svg>
                         </span>
                         <span v-else class="input-icon icon-mic" title="Voice mail is not functioning now.">
                             <svg viewBox="0 0 20 20"><path fill="currentColor" d="M9 18v-1.06A8 8 0 0 1 2 9h2a6 6 0 1 0 12 0h2a8 8 0 0 1-7 7.94V18h3v2H6v-2h3zM6 4a4 4 0 1 1 8 0v5a4 4 0 1 1-8 0V4z"/></svg>
@@ -132,8 +132,7 @@
             </div>
         </div>
     </div>
-    <div class="message-section" v-else>
-
+    <div class="message-section coverage" v-else>
     </div>
 </template>
 
@@ -462,15 +461,23 @@ export default{
 
 @media (max-width: 900px) {
     #chat-side{
+        min-width: 100%;
+        flex: 1;
+    }
+    .coverage{
         display: none;
     }
-    .open-chatside-mobile{
-        width: 100% !important;
-        flex: 1 !important;
-        height: 100% !important;
-        display: flex !important; 
-        flex-direction: column !important;  
+
+    .openChat-enter-active, .openChat-leave-active{
+        transition: opacity 0.3s ease;
     }
+    .openChat-enter-to, .openChat-leave-from{
+        opacity: 1;
+    }
+    .openChat-enter-from, .openChat-leave-to{
+        opacity: 0;
+    }
+
 
     .back-to-home{
         display:inline !important;
