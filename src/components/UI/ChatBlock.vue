@@ -1,5 +1,5 @@
 <template>
-    <RippleEffect duration="0.6s" @click="$emit('selectThisChatEmit', randomColor, userId)">
+    <RippleEffect duration="0.6s" @click="$emit('selectThisChatEmit', randomColor, chatId)">
         <div class="chats" :class="{'selected-chat': changeBgSelected}">
             <div class="chat-profile">
                 <template v-if="hasImage">
@@ -32,7 +32,7 @@
                             {{ lmessage }}
                         </p>
                     </div>
-                    <div class="chat-badge" v-if="unread > 0">
+                    <div class="chat-badge" v-if="unread > 0 && false">
                         <BadgeUI :value="unread"/>
                     </div>
                 </div>
@@ -62,23 +62,23 @@ export default{
         },
         date: {
             type: String,
-            required: true
+            required: false
         },
         lmessage:{
             type: String,
-            required: true
+            required: false
         },
         unread:{
             type: Number,
             default: 0,
-            required: true
+            required: false
         },
-        userId:{
-            type: Number,
+        chatId:{
+            type: String,
             default: null
         },
         selectedID:{
-            type: Number,
+            type: String,
             default: null
         }
 
@@ -102,7 +102,7 @@ export default{
            
         },
         changeBgSelected(){
-            return this.userId === this.selectedID  
+            return this.chatId === this.selectedID  
         },
     }
 }

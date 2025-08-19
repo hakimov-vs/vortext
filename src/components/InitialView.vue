@@ -25,22 +25,28 @@
             <div class="vortext-form">
                 <transition name="form-fade" mode="out-in">
                     <div v-if="exsistUser" key="login" class="login-form">
-                        <form>
-                            <input type="email" name="email" class="form-input" placeholder="email">
-                            <input type="password" name="password" class="form-input" placeholder="password">
-                            <input type="submit" class="form-input form-submit" value="Login">
+                        <form @submit.prevent="login">
+                            <input type="email" name="email" class="form-input" placeholder="email" required>
+                            <input type="password" name="password" class="form-input" placeholder="password" required>
+                            <input type="submit" class="form-input form-submit" :disabled="loading" value="Login">
                         </form>
+                         <span v-if="error" style="margin-top: 10px; display: inline-block; color: red;">
+                            {{ error }}
+                        </span>
                         <p class="form-changeto">
                             You do not have account?
-                            <span @click="exsistUser = false">Register</span>
+                            <span @click="exsistUser = false, error = null">Register</span>
                         </p>
                     </div>
 
                     <div v-else key="signup" class="signup-form">
                         <form @submit.prevent="registerHandle">
-                            <input type="text" name="text" class="form-input" placeholder="Name">
-                            <input type="email" name="email" class="form-input" placeholder="email">
-                            <input type="password" name="password" class="form-input" placeholder="password">
+                            <input type="text" name="text" class="form-input" placeholder="Name" required maxlength="25" minlength="2" 
+                            pattern="[A-Za-z0-9]+" 
+                            title="Only letters and numbers are allowed">
+                            <input type="email" name="email" class="form-input" placeholder="email" required>
+                            <input type="password" name="password" class="form-input" placeholder="password" required
+                                 minlength="6">
                             <input type="file" name="profilePhoto" class="form-input file-input" id="file">
                             <label for="file" class="label-for-file form-input">
                                 <span>
@@ -52,12 +58,12 @@
                             </label>
                             <input type="submit" class="form-input form-submit" value="Sign Up">
                         </form>
-                        <span v-if="registerError" style="margin-top: 10px; display: inline-block; color: red;">
-                            {{ registerError }}
+                        <span v-if="error" style="margin-top: 10px; display: inline-block; color: red;">
+                            {{ error }}
                         </span>
                         <p class="form-changeto">
                             Already have account?
-                            <span @click="exsistUser = true">Login</span>
+                            <span @click="exsistUser = true, error = null">Login</span>
                         </p>
                     </div>
                 </transition>
@@ -67,23 +73,25 @@
 </template>
 
 <script>
-import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
-import { auth, db } from '@/firebase';
+import { createUserWithEmailAndPassword, 
+        updateProfile, 
+        signInWithEmailAndPassword } from 'firebase/auth';
 import { doc, setDoc } from "firebase/firestore"; 
+import { auth, db } from '@/firebase';
 
 export default {
     name:"InitialView",
     data(){
         return {
-            registerError: null,
+            error: null,
             exsistUser: true,
             loading: false 
         }
     },
     methods:{
             async registerHandle(e) {
-                this.loading = true;  // start loader
-                this.registerError = null;
+                this.loading = true;  
+                this.error = null;
 
                 const name = e.target[0].value;
                 const email = e.target[1].value;
@@ -119,16 +127,47 @@ export default {
                         uid: user.uid,
                         name,
                         email,
-                        photoUrl, // now will be either URL or null
-                        lastSeen: null
+                        photoUrl, 
+                        whenOnline: null
                     });
-                    await setDoc(doc(db, "userChats", user.uid), {});
                 } 
-                catch (error) {
-                    this.registerError = error.message.slice(9, );
+                catch (err) {
+                    const registerErrorMessages = {
+                        "auth/email-already-in-use": "This email is already registered.",
+                        "auth/invalid-email": "Invalid email format.",
+                        "auth/operation-not-allowed": "Email/password sign-up is not enabled.",
+                        "auth/weak-password": "Password is too weak. Please use at least 6 characters.",
+                        "auth/network-request-failed": "Network error. Please check your connection."
+                    };
+                    this.error = registerErrorMessages[err.code] || "Something went wrong. Please try again.";
+                    console.clear()
                 }finally {
                     this.loading = false; // stop loader
                 }
+        },
+        async login(e) {
+            this.loading = true;
+            const email = e.target[0].value;
+            const password = e.target[1].value;
+
+            try {
+                const res = await signInWithEmailAndPassword(auth, email, password);
+
+            } catch (err) {
+                const errorMessages = {
+                    "auth/user-not-found": "No user found with this email.",
+                    "auth/wrong-password": "Incorrect password. Please try again.",
+                    "auth/invalid-email": "Invalid email format.",
+                    "auth/too-many-requests": "Too many attempts. Try again later.",
+                    "auth/user-disabled": "This account has been disabled.",
+                    "auth/operation-not-allowed": "Email/password sign-in not enabled.",
+                    "auth/network-request-failed": "Network error. Please check your connection."
+                    };
+                this.error = errorMessages[err.code] || "Something went wrong. Please try again.";
+                console.clear()
+            } finally {
+                this.loading = false;
+            }
         }
 
     }

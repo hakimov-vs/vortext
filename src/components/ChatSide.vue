@@ -12,7 +12,7 @@
                             </RippleEffect>
                         </div>
                         <div class="chat-profile-image" v-if="hasImage">
-                            <img :src="store.selectedChat.imgURL" alt="User profile">
+                            <img :src="store.selectedChat.photoUrl" alt="User profile">
                         </div>
                         <div class="no-image" v-else :style="{ backgroundColor: store.randomBgColor }">
                             <span>{{ firstLetter }}</span>
@@ -94,16 +94,32 @@
         </div>
         </div>
         <div class="message-section">
-            <div class="message-block scrollbar-y-style" style="display: flex; align-items: center; flex-direction: column;">
+            <div class="message-block scrollbar-y-style" ref="messageContainer" style="display: flex; align-items: center; flex-direction: column;">
             <div class="message-bubbles">
-                    <div class="m-bubble" v-for="i in [1,2,3,4,5,6,7,8,9,10,11,12]" :key="i" :class="{'m-bubble-received':i % 2 == 0, 'm-bubble-sent': i % 2 == 1 }">
-                        <p v-if="i % 2 == 1" >
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex iure in nulla non aperiam, dolore veniam quo iusto cum pariatur? Minima sed repudiandae temporibus tempore ratione quos libero exercitationem sequi?
+                    <div class="m-bubble" v-for="message in messages" :key="message.from" 
+                    :class="{'m-bubble-received':message.to == store.currentUser.uid, 
+                    'm-bubble-sent': message.from == store.currentUser.uid }"
+                    :messageid="message.id"
+                    >
+                        <p>
+                            {{ message.text }}
                         </p>
-                        <p v-else>
-                            lorem
-                        </p>
-                        <span>20/20/2025 <span style="margin-top: 3px;">read</span></span>
+                        <span> {{ 
+                             message.createdAt?.toDate
+                            ? message.createdAt.toDate().toLocaleString("en-US", {
+                                month: "long",  
+                                hour: "2-digit",
+                                minute: "2-digit" 
+                                })
+                             : "" 
+                            
+                            }} 
+                            <!-- <span style="margin-top: 3px;" v-if="message.to !== store.currentUser.uid">{{ 
+                                message.status    
+                            }}
+                            </span> -->
+                            
+                        </span>
                     </div>
             </div>
             </div>
@@ -114,15 +130,15 @@
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-smile-icon lucide-smile"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" x2="9.01" y1="9" y2="9"/><line x1="15" x2="15.01" y1="9" y2="9"/></svg>
                         </span>
                         <div class="input-message">
-                            <input v-model.trim="messageText" type="text" name="message" placeholder="Message">
+                            <input v-model.trim="messageText" type="text" name="message" placeholder="Message" @keyup.enter="sendMessage">
                         </div>
                         <span class="input-icon icon-paperclip" title="Filing is not functioning now."> 
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-paperclip-icon lucide-paperclip"><path d="m16 6-8.414 8.586a2 2 0 0 0 2.829 2.829l8.414-8.586a4 4 0 1 0-5.657-5.657l-8.379 8.551a6 6 0 1 0 8.485 8.485l8.379-8.551"/></svg>
                         </span>
                     </div>
                     <div class="input-right">
-                        <span v-if="enabletosendtext" class="input-icon" style="padding: 1px 0px 0px 3px;">
-                        <svg viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M2.345 2.245a1 1 0 0 1 1.102-.14l18 9a1 1 0 0 1 0 1.79l-18 9a1 1 0 0 1-1.396-1.211L4.613 13H10a1 1 0 1 0 0-2H4.613L2.05 3.316a1 1 0 0 1 .294-1.071z" clip-rule="evenodd"/></svg>
+                        <span v-if="enabletosendtext" @click="sendMessage" class="input-icon" style="padding: 1px 0px 0px 3px;">
+                            <svg viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M2.345 2.245a1 1 0 0 1 1.102-.14l18 9a1 1 0 0 1 0 1.79l-18 9a1 1 0 0 1-1.396-1.211L4.613 13H10a1 1 0 1 0 0-2H4.613L2.05 3.316a1 1 0 0 1 .294-1.071z" clip-rule="evenodd"/></svg>
                         </span>
                         <span v-else class="input-icon icon-mic" title="Voice mail is not functioning now.">
                             <svg viewBox="0 0 20 20"><path fill="currentColor" d="M9 18v-1.06A8 8 0 0 1 2 9h2a6 6 0 1 0 12 0h2a8 8 0 0 1-7 7.94V18h3v2H6v-2h3zM6 4a4 4 0 1 1 8 0v5a4 4 0 1 1-8 0V4z"/></svg>
@@ -137,27 +153,156 @@
 </template>
 
 <script>
+import { 
+  collection, query,getDoc, where, getDocs, addDoc, 
+  updateDoc, doc, setDoc, serverTimestamp, orderBy, onSnapshot
+} from "firebase/firestore";
+import { db } from "@/firebase";
 import { store } from '@/store/store.js';
 export default{
     name:'ChatSide',
     data(){
         return{
+            messages: [],
+            unsubscribe: null,
             messageText:"",
             dropMenuState: false,
             store
         }
+    },
+    methods:{
+        async sendMessage() {
+            const currentUserId = store.currentUser.uid;
+            const otherUserId = store.selectedChat.uid;
+            const text = this.messageText?.trim();
+
+            if (!text) return; 
+
+            try {
+                const chatRef = collection(db, "chats");
+                const q = query(chatRef, where("members", "array-contains", currentUserId));
+                const querySnapshot = await getDocs(q);
+
+                let chatId = null;
+                let chatData = null;
+
+                // Find existing chat
+                querySnapshot.forEach((docSnap) => {
+                    const data = docSnap.data();
+                    if (data.members.includes(otherUserId)) {
+                        chatId = docSnap.id;
+                        chatData = data;
+                    }
+                });
+
+                // If chat doesn’t exist, create it
+                let chatState = true;
+                let chat = null;
+                if (!chatId) {
+                    chatState = false;
+                    const newChatRef = await addDoc(chatRef, {
+                        members: [currentUserId, otherUserId],
+                        lastMessage: text,
+                        lastMessageAt: serverTimestamp(),
+                        unreadCounts: {
+                            [currentUserId]: 0,
+                            [otherUserId]: 1
+                        }
+                    });
+                    chatId = newChatRef.id;
+                    chat = newChatRef
+                } else {
+                    // Update lastMessage, lastMessageAt, unreadCounts
+                    await updateDoc(doc(db, "chats", chatId), {
+                        lastMessage: text,
+                        lastMessageAt: serverTimestamp(),
+                        [`unreadCounts.${otherUserId}`]: (chatData.unreadCounts?.[otherUserId] || 0) + 1
+                    });
+                }
+
+                // Add message to messages subcollection
+                const messagesRef = collection(db, "chats", chatId, "messages");
+                await addDoc(messagesRef, {
+                    from: currentUserId,
+                    to: otherUserId,
+                    text,
+                    createdAt: serverTimestamp(),
+                    status: "sent"
+                });
+
+                if (!chatState) {
+                    const otherUserRef = doc(db, "users", otherUserId);
+                    const otherUserSnap = await getDoc(otherUserRef);
+                    const otherUserData = otherUserSnap.exists() ? otherUserSnap.data() : {};
+                    const newChatRef = doc(db, "chats", chatId)
+                    const newChatSnap = await getDoc(newChatRef)
+                    const newChatData = newChatSnap.data();
+                    const newChat = {
+                        uid: otherUserId,
+                        photoUrl: otherUserData.photoUrl || null,
+                        name: otherUserData.name || "Unknown",
+                        date: newChatData.lastMessageAt?.toDate
+                        ? newChatData.lastMessageAt.toDate().toLocaleString("en-US", {
+                                month: "long",  
+                                hour: "2-digit",
+                                minute: "2-digit" 
+                                }) : "",
+                        lmessage: newChatData.lastMessage,
+                        unread: newChatData.unreadCounts?.[currentUserId] || 0,
+                        chatId
+                    }
+                    store.selectThisChat(newChat)
+                }
+
+                this.messageText = ""; // clear input
+            } catch (err) {
+                console.error("❌ Error sending message:", err);
+                this.error = "Something went wrong. Please try again.";
+            }
+        }
+
     },
     computed:{
         enabletosendtext(){
             return true ? this.messageText != "" : false
         },
         hasImage() {
-            return !!this.store.selectedChat.imgURL;
+            return !!this.store.selectedChat.photoUrl;
         },
         firstLetter() {
             return this.store.selectedChat.name ? this.store.selectedChat.name.charAt(0).toUpperCase() : '?';
         }
-    }
+    },
+    watch: {
+        messages() {
+        this.$nextTick(() => {
+        const container = this.$refs.messageContainer;
+        if (container) {
+            container.scrollTop = container.scrollHeight;
+        }
+        });
+    },
+    "store.selectedChat": {
+        immediate: true,
+        handler(newChat) {
+        if (this.unsubscribe) this.unsubscribe();
+        this.messages = [];
+
+        if (!newChat || !newChat.chatId) return;
+
+        const chatId = newChat.chatId;
+        const messagesRef = collection(db, "chats", chatId, "messages");
+        const q = query(messagesRef, orderBy("createdAt", "asc"));
+
+        this.unsubscribe = onSnapshot(q, (snapshot) => {
+            this.messages = snapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+            }));
+        });
+        },
+    },
+  }
 }
 </script>
 
@@ -273,6 +418,7 @@ export default{
     flex: 1 0 0;
     overflow-y: auto;
     overflow-x: hidden;
+    scroll-behavior: smooth;
 }
 
 .input-section{

@@ -3,7 +3,7 @@
     <div class="loader-container" v-if="loading">
       <div class="loader"></div>
     </div>
-    <template v-if="currentUser">
+    <template v-if="store.currentUser">
       <SideBar/>
       <ChatSide/>
     </template>
@@ -17,13 +17,15 @@ import ChatSide from '@/components/ChatSide.vue';
 import InitialView from '@/components/InitialView.vue';
 import { auth } from "./firebase";
 import { onAuthStateChanged } from "firebase/auth";
+import { store } from '@/store/store';
 
 export default {
   name: 'App',
   data(){
     return{
+      loading: true,
       currentUser: null,
-      loading: true
+      store
     }
   },
   components:{
@@ -31,13 +33,19 @@ export default {
     ChatSide,
     InitialView
   },
+  beforeMount(){
+     this.loading = true
+  },
   mounted(){
     onAuthStateChanged(auth, user=>{
-      this.currentUser = user
-      this.loading = false;
-    })
-    window.addEventListener("load", () => {
-      this.loading = false;
+      if(user){
+        store.setCurrentUser(user)
+        this.loading = false;
+      }
+      else{
+        store.setCurrentUser(null)
+        this.loading = false;
+      }
     });
   }
 

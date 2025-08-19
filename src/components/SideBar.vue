@@ -56,14 +56,14 @@
                             </div>
                         </div>
                     </div>
-                    <div class="menu-items" @click="searchState = false" v-else>
+                    <div class="menu-items" @click="searchState = false, searchQuery = null" v-else>
                         <svg style="width: 22px; margin-left: 2px;" viewBox="0 0 57 46" xmlns="http://www.w3.org/2000/svg"><path d="M0.87868 20.8787C-0.292893 22.0503 -0.292893 23.9497 0.87868 25.1213L19.9706 44.2132C21.1421 45.3848 23.0416 45.3848 24.2132 44.2132C25.3848 43.0416 25.3848 41.1421 24.2132 39.9706L7.24264 23L24.2132 6.02944C25.3848 4.85786 25.3848 2.95837 24.2132 1.7868C23.0416 0.615224 21.1421 0.615224 19.9706 1.7868L0.87868 20.8787ZM56.5 20L3 20V26L56.5 26V20Z"></path></svg>
                     </div>
                 </div>
                 <div class="header-search">
                     <div class="search-items">
                         <svg :class="{'focus-search-icon': searchState}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/></svg>
-                        <input name="search" type="text" placeholder="search" v-model="searchQuery" :class="{'focus-search-input': searchState}" @focus="searchState = true">
+                        <input name="search" type="text" placeholder="search to explore" v-model="searchQuery" :class="{'focus-search-input': searchState}" @focus="searchState = true">
                     </div>
                 </div>
             </div>
@@ -76,44 +76,30 @@
         <div class="chats-section scrollbar-y-style">
             <div class="chat-lists" v-if="!searchState" :class="{ 'anime_deactivate': !searchState }">
                 <ChatBlock  v-for="(chat, index) in chatListData"
-                :key="chat.userId"
-                :imgURL="chat.imgURL"
+                :key="chat.chatId"
+                :imgURL="chat.photoUrl"
                 :name="chat.name"
                 :date="chat.date"
                 :lmessage="chat.lmessage"
                 :unread="chat.unread"
-                :userId="chat.userId"
+                :chatId="chat.chatId"
                 :selectedID="selectedIDData"
                 @selectThisChatEmit="SelectThisChatEmitHandle"
                 @click="selectChatHandle(chat)"
                 />
             </div>
             <div class="chat-lists" v-else :class="{ 'anime_activate': searchState }">
-                <ChatBlock  v-for="(chat, index) in ChatResultforSearch"
-                :key="chat.userId"
-                :imgURL="chat.imgURL"
-                :name="chat.name"
-                :date="chat.date"
-                :lmessage="chat.lmessage"
-                :unread="chat.unread"
-                :userId="chat.userId"
-                :selectedID="selectedIDData"
-                @selectThisChatEmit="SelectThisChatEmitHandle"
-                @click="selectChatHandle(chat)"
-                />
                 <div class="new-chat-selection">
                     <div class="adding-chat-header">
-                        <span>Add a new chat +</span>
+                        <span v-if="!noSearchResult">Add a new chat +</span>
+                        <span v-if="noSearchResult">No results found</span>
                     </div>
                 </div>
-                <ChatBlock  v-for="(chat, index) in chatListData"
-                :key="chat.userId"
-                :imgURL="chat.imgURL"
+                <ChatBlock  v-for="(chat, index) in ChatResultforSearch"
+                :key="chat.chatId"
+                :imgURL="chat.photoUrl"
                 :name="chat.name"
-                :date="''"
-                :lmessage="''"
-                :unread="0"
-                :userId="chat.userId"
+                :chatId="chat.uid"
                 :selectedID="selectedIDData"
                 @selectThisChatEmit="SelectThisChatEmitHandle"
                 @click="selectChatHandle(chat)"
@@ -128,6 +114,8 @@
     </div>
 </template>
 <script>
+import { collection, query, where, getDocs, onSnapshot, doc, getDoc } from "firebase/firestore";
+import { db } from "@/firebase";
 import ChatBlock from '@/components/UI/ChatBlock.vue';
 import RippleEffect from './UI/RippleEffect.vue';
 import { store } from '@/store/store.js';
@@ -143,38 +131,60 @@ export default{
             isMobile: window.innerWidth <= 900,
             searchQuery: "",
             searchState: false,
-            chatListData:[
-                    { userId: 1,  imgURL: '', name: 'Emily',     date: '03/02/2025', lmessage: 'Let me know when you’re free.', unread: 5 },
-                    { userId: 2,  imgURL: '/images/img2.jpg', name: 'Michael',   date: '03/03/2025', lmessage: 'I’ll call you back in 5 minutes.', unread: 65 },
-                    { userId: 3,  imgURL: '/images/img2.jpg', name: 'Sofia',     date: '03/04/2025', lmessage: 'Thanks for your help today!', unread: 0 },
-                    { userId: 4,  imgURL: '/images/img2.jpg', name: 'Liam',      date: '03/05/2025', lmessage: 'Meeting was postponed to Friday.', unread: 75 },
-                    { userId: 5,  imgURL: '/images/img2.jpg', name: 'Olivia',    date: '03/06/2025', lmessage: 'Did you receive the documents?', unread: 13 },
-                    { userId: 6,  imgURL: '/images/img2.jpg', name: 'Noah',      date: '03/07/2025', lmessage: 'Everything is going great!', unread: 25 },
-                    { userId: 7,  imgURL: '', name: 'Isabella',  date: '03/08/2025', lmessage: 'Happy Birthday! 🎉', unread: 3 },
-                    { userId: 8,  imgURL: '/images/img2.jpg', name: 'James',     date: '03/09/2025', lmessage: 'Check your inbox when you can.', unread: 0 },
-                    { userId: 9,  imgURL: '/images/img2.jpg', name: 'Ava',       date: '03/10/2025', lmessage: 'I’m on my way now.', unread: 6 },
-                    { userId: 10, imgURL: '/images/img2.jpg', name: 'William',   date: '03/11/2025', lmessage: 'Can we reschedule our meeting?', unread: 0 },
-                    { userId: 11, imgURL: '/images/img2.jpg', name: 'Mia',       date: '03/12/2025', lmessage: 'Sure, let’s do it tomorrow.', unread: 3 },
-                    { userId: 12, imgURL: '/images/img2.jpg', name: 'Ethan',     date: '03/13/2025', lmessage: 'Let’s grab coffee this weekend.', unread: 5 },
-                    { userId: 13, imgURL: '', name: 'Charlotte', date: '03/14/2025', lmessage: 'Good luck with your exam!', unread: 9 },
-                    { userId: 14, imgURL: '/images/img2.jpg', name: 'Lucas',     date: '03/15/2025', lmessage: 'I’ll be there in 10 minutes.', unread: 36 },
-                    { userId: 15, imgURL: '/images/img2.jpg', name: 'Amelia',    date: '03/16/2025', lmessage: 'Don’t forget the meeting at 3.', unread: 15 },
-                    { userId: 16, imgURL: '/images/img2.jpg', name: 'Benjamin',  date: '03/17/2025', lmessage: 'I’ve updated the file.', unread: 32 },
-                    { userId: 17, imgURL: '/images/img2.jpg', name: 'Harper',    date: '03/18/2025', lmessage: 'Thank you so much!', unread: 14 },
-                    { userId: 18, imgURL: '/images/img2.jpg', name: 'Henry',     date: '03/19/2025', lmessage: 'Talk to you later!', unread: 0 },
-                    { userId: 19, imgURL: '', name: 'Evelyn',    date: '03/20/2025', lmessage: 'Hope you had a great weekend!', unread: 5 },
-                    { userId: 20, imgURL: '/images/img2.jpg', name: 'Alexander', date: '03/21/2025', lmessage: 'Did you finish the report?', unread: 0 }
-
-            ],
-            ChatResultforSearch: [
-               { userId: 1,  imgURL: '', name: 'Muslimbek', date: '03/02/2025', lmessage: 'Let me know when you’re free.', unread: 5 },
-            ],
+            store,
+            chatListData:[],
+            ChatResultforSearch: [],
+            noSearchResult: false,
             store
         }
     },
     mounted(){
-          this.chatListData.sort((a, b) => b.unread - a.unread);
           window.addEventListener('resize', this.checkScreen);
+
+          // get chats
+          const currentUserId = store.currentUser.uid;
+          const chatRef = collection(db, "chats");
+          const q = query(chatRef, where("members", "array-contains", currentUserId));
+
+          try{
+            onSnapshot(q, async (snapshot) => {
+                const chats = [];
+
+                for (const docSnap of snapshot.docs) {
+                const chat = docSnap.data();
+                const chatId = docSnap.id;
+
+                // Find the other user
+                const otherUserId = chat.members.find(id => id !== currentUserId);
+
+                // Fetch other user info
+                const otherUserRef = doc(db, "users", otherUserId);
+                const otherUserSnap = await getDoc(otherUserRef);
+                const otherUserData = otherUserSnap.exists() ? otherUserSnap.data() : {};
+                chats.push({
+                        uid: otherUserId,
+                        photoUrl: otherUserData.photoUrl, // <-- make sure field matches Firestore
+                        name: otherUserData.name || "Unknown",
+                        date: chat.lastMessageAt?.toDate
+                        ? chat.lastMessageAt.toDate().toLocaleString("en-US", {
+                                month: "long",  
+                                hour: "2-digit",
+                                minute: "2-digit" 
+                                })
+                        : "",
+                        lmessage: chat.lastMessage,
+                        unread: chat.unreadCounts?.[currentUserId] || 0,
+                        chatId
+                    });
+                }
+
+                // here there is work to do for unread messages
+                this.chatListData = chats.sort((a, b) => b.lastMessageAt - a.lastMessageAt)
+                
+            });
+        }catch(err){
+            console.log(err)
+        }
 
     },
     computed:{
@@ -196,9 +206,11 @@ export default{
         selectChatHandle(chat) {
              store.selectThisChat(chat)
         },
-        SelectThisChatEmitHandle(color, userId){
+        SelectThisChatEmitHandle(color, chatid){
             store.setRandomBgColor(color)
-            this.selectedIDData = userId
+            this.selectedIDData = chatid;
+            /* create a chat room */
+
         },
         checkScreen() {
              this.isMobile = window.innerWidth <= 900;
@@ -206,6 +218,43 @@ export default{
         logout(){
             signOut(auth)
         }
+    },
+    watch: {
+        async searchQuery(newValue) {
+            if(newValue !== null){
+                const searchLower = newValue.toLowerCase().trim();
+                try {
+                    const usersRef = collection(db, "users");
+                    const snap = await getDocs(usersRef);
+
+                    // Get IDs or names of current chats to exclude them
+                    const existingChatIds = this.chatListData.map(chat => chat.uid || chat.id);
+
+                    const results = snap.docs
+                        .map(doc => ({ id: doc.id, ...doc.data() }))
+                        .filter(user => {
+                        // Exclude current user
+                        if (user.uid === store.currentUser.uid) return false;
+
+                        // Exclude users already in chatListData
+                        if (existingChatIds.includes(user.uid || user.id)) return false;
+
+                        // Match name or email
+                        const nameMatch = user.name?.toLowerCase().includes(searchLower);
+                        const emailMatch = user.email?.toLowerCase().includes(searchLower);
+
+                        return nameMatch || emailMatch;
+                        });
+
+                    this.ChatResultforSearch = results;
+                    this.noSearchResult = results.length < 1;
+
+                } 
+                catch (err) {
+                    console.log(err);
+                }
+            }        
+         }
     },
     components:{
         ChatBlock
@@ -379,7 +428,7 @@ export default{
 }
 
 .new-chat-selection{
-    margin: 20px 0px 5px 0px;
+    margin: 0px 0px 5px 0px;
     padding: 5px 15px;
     background-color: #eceef1;
 }
