@@ -1,3 +1,4 @@
+
 <template>
   <div id="screen">
     <div class="loader-container" v-if="loading">
