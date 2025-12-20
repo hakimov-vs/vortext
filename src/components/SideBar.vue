@@ -25,7 +25,7 @@
                                         <svg viewBox="0 0 17 16"><path fill="currentColor" fill-rule="evenodd" d="M6.077 1.162c0 .225.062.45.196.65l4.156 6.229l-4.197 6.037a1.175 1.175 0 0 0 .328 1.629a1.174 1.174 0 0 0 1.63-.325l4.63-6.688c.264-.394.266-.908.002-1.304L8.233.51a1.178 1.178 0 0 0-2.156.652z"/></svg>
                                     </div>
                                 </div>
-                                <div class="drop-menu-items" title="Not functioning">
+                                <!-- <div class="drop-menu-items" title="Not functioning">
                                     <div class="drop-menu-items-left w-auto">
                                         <div class="dr-menu-item-icon w-auto">
                                             <svg viewBox="0 0 512 512"><path fill="currentColor" d="M489.972 119.059a23.839 23.839 0 0 0-17-7.059H456V72a24.027 24.027 0 0 0-24-24H86.627A70.628 70.628 0 0 0 16 118.627v274.746A70.628 70.628 0 0 0 86.627 464h385.4a24.047 24.047 0 0 0 24-23.923l.944-303.995a23.837 23.837 0 0 0-6.999-17.023ZM464.053 432H86.627A38.627 38.627 0 0 1 48 393.373V118.627A38.627 38.627 0 0 1 86.627 80H424v32H88v32h376.947Z"/><path fill="currentColor" d="M392 264h32v32h-32z"/></svg>
@@ -39,7 +39,7 @@
                                     <div class="drop-menu-items-right w-auto">
                                         <svg viewBox="0 0 17 16"><path fill="currentColor" fill-rule="evenodd" d="M6.077 1.162c0 .225.062.45.196.65l4.156 6.229l-4.197 6.037a1.175 1.175 0 0 0 .328 1.629a1.174 1.174 0 0 0 1.63-.325l4.63-6.688c.264-.394.266-.908.002-1.304L8.233.51a1.178 1.178 0 0 0-2.156.652z"/></svg>
                                     </div>
-                                </div>
+                                </div> -->
                                 <div class="drop-menu-items" @click="logout">
                                     <div class="drop-menu-items-left w-auto">
                                         <div class="dr-menu-item-icon w-auto">
