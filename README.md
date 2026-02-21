@@ -72,7 +72,6 @@ vortext/
 ├── src/
 │   ├── components/          # Vue components
 │   ├── views/               # Page views
-│   ├── services/            # Firebase and API services
 │   ├── App.vue              # Root component
 │   ├── main.js              # Application entry point
 │   └── firebase.js          # Firebase configuration
@@ -119,10 +118,6 @@ Currently in v1.0 with core messaging functionality. Regular updates and feature
 For questions, suggestions, or feedback about Vortext, please feel free to:
 - Open an issue on GitHub
 - Visit the live demo: [vortextapp.com](https://vortextapp.com)
-
-## 📄 License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
 
 ## 🙏 Acknowledgments
 
